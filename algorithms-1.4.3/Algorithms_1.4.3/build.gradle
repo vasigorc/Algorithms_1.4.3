@@ -1,0 +1,37 @@
+apply plugin: 'scala'
+apply plugin: 'java-library-distribution'
+
+distributions {
+    main{
+        baseName = 'algorithms-1.4.3'
+    }
+}
+
+sourceCompatibility = '1.8'
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+task wrapper(type: Wrapper){
+    gradleVersion='2.14'
+}
+
+jar{
+    baseName = 'algorithms-1.4.3'
+}
+
+if (!hasProperty('mainClass')) {
+    ext.mainClass = 'src.main.java.ca.vgorcinschi.algorithms_1_4_3.DoublingTest'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.scala-lang:scala-library:2.11.8'  
+}
+
+task run(type: JavaExec, dependsOn: classes) {
+    main = 'ca.vgorcinschi.algorithms_1_4_3.DoublingTest'
+    classpath sourceSets.main.runtimeClasspath
+    classpath configurations.runtime
+}
